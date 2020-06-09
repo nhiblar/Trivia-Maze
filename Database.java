@@ -3,37 +3,12 @@ import java.util.Scanner;
 
 public class Database {
 
-	public static void main(String[] args) 
-	{
-		Connection database = EstablishDatabase();
-		CreateTables(database);
-		//AddMultipleChoiceQuestion(database);
-		//AddTrueFalseQuestion(database);
-		//AddShortAnswerQuestion(database);
-		//UpdateMultipleChoiceQuestion(database);
-		//UpdateTrueFalseQuestion(database);
-		//UpdateShortAnswerQuestion(database);
-		//DeleteMultipleChoiceQuestion(database);
-		//DeleteTrueFalseQuestion(database);
-		//DeleteShortAnswerQuestion(database);
-		//PrintAllMultipleChoiceQuestions(database);
-		//PrintAllTrueFalseQuestions(database);
-		//PrintAllShortAnswerQuestions(database);
-		//PrintAllQuestions(database);
-		ResetUsedVariable(database);
-		//PrintQuestionVariables(GetMultipleChoiceQuestion(database));
-		//PrintQuestionVariables(GetMultipleChoiceQuestion(database));
-		//PrintQuestionVariables(GetTrueFalseQuestion(database));
-		//PrintQuestionVariables(GetShortAnswerQuestion(database));
-		
-		try {
-			database.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	private static Connection database;
+	
+	public Database() {
+		Database.database = EstablishDatabase();
+		CreateTables();
 	}
-
 	
 	private static Connection EstablishDatabase(String filename) 
 	{
@@ -61,12 +36,20 @@ public class Database {
 		return con;
 	}
 	
-	private static Connection EstablishDatabase() 
+	public static void CloseDatabase() {
+		try {
+			database.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static Connection EstablishDatabase() 
 	{
 		return EstablishDatabase("trivia.db");
 	}
 	
-	private static void CreateShortAnswerTable(Connection con) 
+	private static void CreateShortAnswerTable() 
 	{
 		String sqlstatement = "CREATE TABLE IF NOT EXISTS ShortAnswer (\n"
 							+ "id integer PRIMARY KEY,\n"
@@ -76,7 +59,7 @@ public class Database {
 							+ ");";
 		try 
 		{
-			Statement command = con.createStatement();
+			Statement command = database.createStatement();
 			command.execute(sqlstatement);
 			System.out.println("Short answer table created.\n");
 		}catch(SQLException e) 
@@ -85,7 +68,7 @@ public class Database {
 		}
 	}
 	
-	private static void CreateMultipleChoiceTable(Connection con) 
+	private static void CreateMultipleChoiceTable() 
 	{
 		String sqlstatement = "CREATE TABLE IF NOT EXISTS MultipleChoice (\n"
 				+ "id integer PRIMARY KEY,\n"
@@ -99,7 +82,7 @@ public class Database {
 				+ ");";
 		try 
 		{
-			Statement command = con.createStatement();
+			Statement command = database.createStatement();
 			command.execute(sqlstatement);
 			System.out.println("Multiple choice table created.\n");
 		}catch(SQLException e) 
@@ -108,7 +91,7 @@ public class Database {
 		}
 	}
 	
-	private static void CreateTrueFalseTable(Connection con) 
+	private static void CreateTrueFalseTable() 
 	{
 		String sqlstatement = "CREATE TABLE IF NOT EXISTS TrueFalse (\n"
 				+ "id integer PRIMARY KEY,\n"
@@ -118,7 +101,7 @@ public class Database {
 				+ ");";
 		try 
 		{
-			Statement command = con.createStatement();
+			Statement command = database.createStatement();
 			command.execute(sqlstatement);
 			System.out.println("True false table created.\n");
 		}catch(SQLException e) 
@@ -127,14 +110,14 @@ public class Database {
 		}
 	}
 	
-	private static void CreateTables(Connection con) 
+	private static void CreateTables() 
 	{
-		CreateShortAnswerTable(con);
-		CreateMultipleChoiceTable(con);
-		CreateTrueFalseTable(con);
+		CreateShortAnswerTable();
+		CreateMultipleChoiceTable();
+		CreateTrueFalseTable();
 	}
 	
-	public static void AddMultipleChoiceQuestion(Connection con) 
+	public static void AddMultipleChoiceQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String question, first, second, third, fourth, correct;
@@ -150,7 +133,7 @@ public class Database {
 		String sql = "INSERT INTO MultipleChoice(question,firstanswer,secondanswer,thirdanswer,fourthanswer,correctanswer,used) VALUES(?,?,?,?,?,?,?)";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setString(1, question);
 			statment.setString(2, first);
 			statment.setString(3, second);
@@ -168,7 +151,7 @@ public class Database {
 		}
 	}
 	
-	public static void AddTrueFalseQuestion(Connection con) 
+	public static void AddTrueFalseQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String question, answer;
@@ -179,7 +162,7 @@ public class Database {
 		String sql = "INSERT INTO TrueFalse(question,answer,used) VALUES(?,?,?)";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setString(1, question);
 			statment.setString(2, answer);
 			statment.setInt(3, 0);
@@ -193,7 +176,7 @@ public class Database {
 		}
 	}
 	
-	public static void AddShortAnswerQuestion(Connection con) 
+	public static void AddShortAnswerQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String question, answer;
@@ -204,7 +187,7 @@ public class Database {
 		String sql = "INSERT INTO ShortAnswer(question,answer,used) VALUES(?,?,?)";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setString(1, question);
 			statment.setString(2, answer);
 			statment.setInt(3, 0);
@@ -218,7 +201,7 @@ public class Database {
 		}
 	}
 	
-	public static void UpdateMultipleChoiceQuestion(Connection con) 
+	public static void UpdateMultipleChoiceQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id, question, first, second, third, fourth, correct;
@@ -237,7 +220,7 @@ public class Database {
 				+ "fourthanswer = ? , correctanswer = ? WHERE id = ?";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setString(1, question);
 			statment.setString(2, first);
 			statment.setString(3, second);
@@ -255,7 +238,7 @@ public class Database {
 		}
 	}
 	
-	public static void UpdateTrueFalseQuestion(Connection con) 
+	public static void UpdateTrueFalseQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id, question, answer;
@@ -268,7 +251,7 @@ public class Database {
 		String sql = "UPDATE TrueFalse SET question = ? , answer = ? WHERE id = ?";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setString(1, question);
 			statment.setString(2, answer);
 			statment.setInt(3, Integer.parseInt(id));
@@ -282,7 +265,7 @@ public class Database {
 		}
 	}
 	
-	public static void UpdateShortAnswerQuestion(Connection con) 
+	public static void UpdateShortAnswerQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id, question, answer;
@@ -295,7 +278,7 @@ public class Database {
 		String sql = "UPDATE ShortAnswer SET question = ? , answer = ? WHERE id = ?";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setString(1, question);
 			statment.setString(2, answer);
 			statment.setInt(3, Integer.parseInt(id));
@@ -309,7 +292,7 @@ public class Database {
 		}
 	}
 	
-	public static void DeleteMultipleChoiceQuestion(Connection con) 
+	public static void DeleteMultipleChoiceQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id;
@@ -318,7 +301,7 @@ public class Database {
 		String sql = "DELETE FROM MultipleChoice WHERE id = ?";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setInt(1, Integer.parseInt(id));
 			statment.executeUpdate();
 		}catch(SQLException e)
@@ -330,7 +313,7 @@ public class Database {
 		}
 	}
 	
-	public static void DeleteTrueFalseQuestion(Connection con) 
+	public static void DeleteTrueFalseQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id;
@@ -339,7 +322,7 @@ public class Database {
 		String sql = "DELETE FROM TrueFalse WHERE id = ?";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setInt(1, Integer.parseInt(id));
 			statment.executeUpdate();
 		}catch(SQLException e)
@@ -351,7 +334,7 @@ public class Database {
 		}
 	}
 	
-	public static void DeleteShortAnswerQuestion(Connection con) 
+	public static void DeleteShortAnswerQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id;
@@ -360,7 +343,7 @@ public class Database {
 		String sql = "DELETE FROM ShortAnswer WHERE id = ?";
 		try 
 		{
-			PreparedStatement statment = con.prepareStatement(sql);
+			PreparedStatement statment = database.prepareStatement(sql);
 			statment.setInt(1, Integer.parseInt(id));
 			statment.executeUpdate();
 		}catch(SQLException e)
@@ -372,12 +355,12 @@ public class Database {
 		}
 	}
 	
-	public static void PrintAllMultipleChoiceQuestions(Connection con)
+	public static void PrintAllMultipleChoiceQuestions()
 	{
 		String sql = "SELECT id, question, firstanswer, secondanswer, thirdanswer, fourthanswer, correctanswer, used FROM MultipleChoice";
 		try 
 		{
-			Statement statment = con.createStatement();
+			Statement statment = database.createStatement();
 			ResultSet result = statment.executeQuery(sql);
 				while(result.next())
 				{
@@ -392,12 +375,12 @@ public class Database {
 		}
 	}
 	
-	public static void PrintAllTrueFalseQuestions(Connection con)
+	public static void PrintAllTrueFalseQuestions()
 	{
 		String sql = "SELECT id, question, answer, used FROM TrueFalse";
 		try 
 		{
-			Statement statment = con.createStatement();
+			Statement statment = database.createStatement();
 			ResultSet result = statment.executeQuery(sql);
 				while(result.next())
 				{
@@ -410,12 +393,12 @@ public class Database {
 		}
 	}
 	
-	public static void PrintAllShortAnswerQuestions(Connection con)
+	public static void PrintAllShortAnswerQuestions()
 	{
 		String sql = "SELECT id, question, answer, used FROM ShortAnswer";
 		try 
 		{
-			Statement statment = con.createStatement();
+			Statement statment = database.createStatement();
 			ResultSet result = statment.executeQuery(sql);
 				while(result.next())
 				{
@@ -428,27 +411,28 @@ public class Database {
 		}
 	}
 	
-	public static void PrintAllQuestions(Connection con) {
-		PrintAllMultipleChoiceQuestions(con);
-		PrintAllTrueFalseQuestions(con);
-		PrintAllShortAnswerQuestions(con);
+	public static void PrintAllQuestions() {
+		PrintAllMultipleChoiceQuestions();
+		PrintAllTrueFalseQuestions();
+		PrintAllShortAnswerQuestions();
 	}
 	
-	public static Question GetMultipleChoiceQuestion(Connection con) 
+	public static Question GetMultipleChoiceQuestion()
 	{
-		String sql = "SELECT id, question, firstanswer, secondanswer, thirdanswer, fourthanswer, correctanswer, used FROM MultipleChoice order by RANDOM() LIMIT 1";
+		String sql = "SELECT id, question, firstanswer, secondanswer, thirdanswer, fourthanswer, correctanswer, used FROM MultipleChoice WHERE used = 0 order by RANDOM() LIMIT 1";
 		Question question = null;
 		try 
 		{
-			Statement statment = con.createStatement();
-			ResultSet result = statment.executeQuery(sql);
-			while(result.getInt("used") == 1) {
-				GetShortAnswerQuestion(con);
-			}
+			PreparedStatement sqlstatment = database.prepareStatement("SELECT count(id) from MultipleChoice WHERE used = 0");
+			ResultSet result = sqlstatment.executeQuery();
+			int count = result.getInt(1);
+			if(count == 0) return null;
+			Statement statment = database.createStatement();
+			result = statment.executeQuery(sql);
 			question = new Question("multiple", result.getString("question"), result.getString("firstanswer"), result.getString("secondanswer"), result.getString("thirdanswer"), result.getString("fourthanswer"), result.getString("correctanswer"));
 			int id = result.getInt("id");
 			sql = "UPDATE MultipleChoice SET used = ? WHERE id = ?";
-			PreparedStatement sqlstatment = con.prepareStatement(sql);
+			sqlstatment = database.prepareStatement(sql);
 			sqlstatment.setInt(1, 1);
 			sqlstatment.setInt(2, id);
 			sqlstatment.executeUpdate();
@@ -459,21 +443,22 @@ public class Database {
 		return question;
 	}
 	
-	public static Question GetTrueFalseQuestion(Connection con) 
+	public static Question GetTrueFalseQuestion()
 	{
 		String sql = "SELECT id, question, answer, used FROM TrueFalse order by RANDOM() LIMIT 1";
 		Question question = null;
 		try 
 		{
-			Statement statment = con.createStatement();
-			ResultSet result = statment.executeQuery(sql);
-			while(result.getInt("used") == 1) {
-				GetTrueFalseQuestion(con);
-			}
+			PreparedStatement sqlstatment = database.prepareStatement("SELECT count(id) from TrueFalse WHERE used = 0");
+			ResultSet result = sqlstatment.executeQuery();
+			int count = result.getInt(1);
+			if(count == 0) return null;
+			Statement statment = database.createStatement();
+			result = statment.executeQuery(sql);
 			question = new Question("trueFalse", result.getString("question"), "null", "null", "null", "null", result.getString("answer"));
 			int id = result.getInt("id");
 			sql = "UPDATE TrueFalse SET used = ? WHERE id = ?";
-			PreparedStatement sqlstatment = con.prepareStatement(sql);
+			sqlstatment = database.prepareStatement(sql);
 			sqlstatment.setInt(1, 1);
 			sqlstatment.setInt(2, id);
 			sqlstatment.executeUpdate();
@@ -484,21 +469,22 @@ public class Database {
 		return question;
 	}
 	
-	public static Question GetShortAnswerQuestion(Connection con) 
+	public static Question GetShortAnswerQuestion() 
 	{
 		String sql = "SELECT id, question, answer, used FROM ShortAnswer order by RANDOM() LIMIT 1";
 		Question question = null;
 		try 
 		{
-			Statement statment = con.createStatement();
-			ResultSet result = statment.executeQuery(sql);
-			while(result.getInt("used") == 1) {
-				GetShortAnswerQuestion(con);
-			}
+			PreparedStatement sqlstatment = database.prepareStatement("SELECT count(id) from ShortAnswer WHERE used = 0");
+			ResultSet result = sqlstatment.executeQuery();
+			int count = result.getInt(1);
+			if(count == 0) return null;
+			Statement statment = database.createStatement();
+			result = statment.executeQuery(sql);
 			question = new Question("short", result.getString("question"), "null", "null", "null", "null", result.getString("answer"));
 			int id = result.getInt("id");
 			sql = "UPDATE ShortAnswer SET used = ? WHERE id = ?";
-			PreparedStatement sqlstatment = con.prepareStatement(sql);
+			sqlstatment = database.prepareStatement(sql);
 			sqlstatment.setInt(1, 1);
 			sqlstatment.setInt(2, id);
 			sqlstatment.executeUpdate();
@@ -511,33 +497,36 @@ public class Database {
 	
 	public static void PrintQuestionVariables(Question question)
 	{
+		if(question != null)
+		{
 		System.out.println(question.GetType() + "-" + question.GetQuestion() + "-" + question.GetFirst() + "-" + question.GetSecond() + "-" + question.GetThird() + "-" + question.GetFourth() + "-" + question.GetCorrect() + "\n");
+		}
 	}
 	
-	public static void ResetUsedVariable(Connection con) 
+	public static void ResetUsedVariable() 
 	{
 		String sql, sqlcomm;
 		sql = "SELECT id, used FROM MultipleChoice";
 		sqlcomm = "UPDATE MultipleChoice SET used = ? WHERE id = ?";
-		Reset(con, sql, sqlcomm);
+		Reset(sql, sqlcomm);
 		sql = "SELECT id, used FROM TrueFalse";
 		sqlcomm = "UPDATE TrueFalse SET used = ? WHERE id = ?";
-		Reset(con, sql, sqlcomm);
+		Reset(sql, sqlcomm);
 		sql = "SELECT id, used FROM ShortAnswer";
 		sqlcomm = "UPDATE ShortAnswer SET used = ? WHERE id = ?";
-		Reset(con, sql, sqlcomm);
+		Reset(sql, sqlcomm);
 	}
 	
-	private static void Reset(Connection con, String sql, String sqlcomm)
+	private static void Reset(String sql, String sqlcomm)
 	{
 		try 
 		{
-			Statement statment = con.createStatement();
+			Statement statment = database.createStatement();
 			PreparedStatement sqlstatment;
 			ResultSet result = statment.executeQuery(sql);
 				while(result.next())
 				{
-					sqlstatment = con.prepareStatement(sqlcomm);
+					sqlstatment = database.prepareStatement(sqlcomm);
 					sqlstatment.setInt(1, 0);
 					sqlstatment.setInt(2, result.getInt("id"));
 					sqlstatment.executeUpdate();
