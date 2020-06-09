@@ -3,19 +3,19 @@ public class Question {
 
 	private String type;
 	private String question;
-	private String primary;
-	private String secondary;
-	private String tertiary;
-	private String tetrary;
+	private String first;
+	private String second;
+	private String third;
+	private String fourth;
 	private String correct;
 	
-	public Question(String type, String question, String primary, String secondary, String tertiary, String tetrary, String correct) {
+	public Question(String type, String question, String first, String second, String third, String fourth, String correct) {
 		this.type = type;
 		this.question = question;
-		this.primary = primary;
-		this.secondary = secondary;
-		this.tertiary = tertiary;
-		this.tetrary = tetrary;
+		this.first = first;
+		this.second = second;
+		this.third = third;
+		this.fourth = fourth;
 		this.correct = correct;
 	}
 	
@@ -27,20 +27,20 @@ public class Question {
 		return this.question;
 	}
 	
-	public String Getprimary() {
-		return this.primary;
+	public String GetFirst() {
+		return this.first;
 	}
 	
-	public String Getsecondary() {
-		return this.secondary;
+	public String GetSecond() {
+		return this.second;
 	}
 		
-	public String Gettertiary() {
-		return this.tertiary;
+	public String GetThird() {
+		return this.third;
 	}
 	
-	public String Gettetrary() {
-		return this.tetrary;
+	public String GetFourth() {
+		return this.fourth;
 	}
 	
 	public String GetCorrect() {
