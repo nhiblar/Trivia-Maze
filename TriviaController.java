@@ -1,14 +1,20 @@
-package GUI;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.event.EventListenerList;
 
-public class TriviaController {
+import testButtons.MyButtonGroup.BtnGrpListener;
+
+@SuppressWarnings("serial")
+public class TriviaController extends ButtonGroup{
 
 	public TriviaView theView;
 	public TriviaModel theModel;
@@ -23,6 +29,7 @@ public class TriviaController {
 		this.theView.addDoorListener(new DoorListener());
 	}
 
+	
 	class SubmitListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -57,13 +64,16 @@ public class TriviaController {
 			}if(e.getSource() == theView.getAbout()){
 				theView.aboutPanel();
 			}
+			if(e.getSource() == theView.getAddQuestion()){
+				System.out.println("Add question to data base.");
+			}
 		}
 	}
 	
 	class DoorListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
-
+			
 			if(e.getSource() == theView.getBut1()){
 				System.out.println("Door 1 clicked");
 			}if(e.getSource() == theView.getBut2()){
