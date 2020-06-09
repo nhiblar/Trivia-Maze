@@ -10,7 +10,9 @@ public class QuestionGenerator {
 	}
 	
 	public QuestionHandler questionCreation(String obj) {
-		QuestionHandler ques;
+		QuestionConduct conduct = null;
+		QuestionHandler newQues;
+		int address = DataBase.getInstance().randomAID(true);
 		
 		switch(obj.toLowerCase()) {
 		case "muiltpleChoice":
@@ -21,16 +23,17 @@ public class QuestionGenerator {
 			break;
 		default:	
 		}
-		return ques;
+		newQues = new QuestionHandler(conduct, address);
+		return newQues;
 	}
 	
 	
-	public Question getQuestion() {
+	public QuestionHandler getQuestion() {
 		switch (question.nextInt(3)) {
 			case 0:
 				return questionCreation("truefalse");
 			case 1:
-				return questionCreation("short");
+				return questionCreation("shortAnswers");
 			case 2:
 				return questionCreation("muiltipleChoice");
 			default:

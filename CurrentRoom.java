@@ -1,17 +1,18 @@
 package TrivaMaze;
 
 public class CurrentRoom extends CellState {
-	private Question question;
 	
-	public CurrentRoom() {
+	private QuestionHandler question;
+	
+	public CurrentRoom(int x, int y) {
 		this.setX(x);
 		this.setY(y);
 	}
-	public CurrentRoom(int x, int y, Question question) {
-		this(x, y);
-		this.question = question;
+	public CurrentRoom(int x, int y, QuestionHandler questionNew) {
+		this(x,y);
+		this.question = questionNew;
 	}
-	public Question getQuestion() {
+	public QuestionHandler getQuestion() {
 		return this.question;
 	}
 }

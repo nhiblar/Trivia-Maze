@@ -16,11 +16,11 @@ public class CellState {
 		this.setX(x);
 		this.setY(y);
 	}
-	public void setX(int x) {
-		this.x = x;
+	public void setX(int xUpdate) {
+		this.x = xUpdate;
 	}
-	public void setY(int y) {
-		this.y = y;
+	public void setY(int yUpdate) {
+		this.y = yUpdate;
 	}
 	public int getX() {
 		return x;

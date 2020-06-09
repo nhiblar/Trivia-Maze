@@ -10,7 +10,7 @@ public class MazeBuilder {
 	public static QuestionGenerator QG;
 	private CellState[][] mazeBuilder;
 	private boolean gameOver;
-	public static final int mazeSize = 8;
+	public static final int mazeSize = 4;
 	
 	public MazeBuilder() {
 		
@@ -52,7 +52,7 @@ public class MazeBuilder {
 		Random gen = new Random();
 		for(int i = 0; i < mazeSize; i++) {
 			for(int j = 0; j < mazeSize; j++) {
-				mazeBuilder[i][j] = new CurrentRoom(i, j, QG.getRandomQuestion());
+				mazeBuilder[i][j] = new CurrentRoom(i, j, QG.getQuestion());
 				if(i == 0 || j == 0 || i == mazeSize - 1 || j == mazeSize - 1 || i - j == 0 || i - j == 1)
 					mazeBuilder[i][j].setRoom(CheckRoom.BLOCKED);
 			}
