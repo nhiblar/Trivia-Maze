@@ -20,7 +20,12 @@ public class Database {
 		//PrintAllTrueFalseQuestions(database);
 		//PrintAllShortAnswerQuestions(database);
 		//PrintAllQuestions(database);
-		PrintQuestionVariables(GetMultipleChoiceQuestion(database));
+		ResetUsedVariable(database);
+		//PrintQuestionVariables(GetMultipleChoiceQuestion(database));
+		//PrintQuestionVariables(GetMultipleChoiceQuestion(database));
+		//PrintQuestionVariables(GetTrueFalseQuestion(database));
+		//PrintQuestionVariables(GetShortAnswerQuestion(database));
+		
 		try {
 			database.close();
 		} catch (SQLException e) {
@@ -465,7 +470,7 @@ public class Database {
 			while(result.getInt("used") == 1) {
 				GetTrueFalseQuestion(con);
 			}
-			question = new Question("trueFalse", result.getString("question"), "null", "null", "null", "null", result.getString("correctanswer"));
+			question = new Question("trueFalse", result.getString("question"), "null", "null", "null", "null", result.getString("answer"));
 			int id = result.getInt("id");
 			sql = "UPDATE TrueFalse SET used = ? WHERE id = ?";
 			PreparedStatement sqlstatment = con.prepareStatement(sql);
@@ -490,7 +495,7 @@ public class Database {
 			while(result.getInt("used") == 1) {
 				GetShortAnswerQuestion(con);
 			}
-			question = new Question("short", result.getString("question"), "null", "null", "null", "null", result.getString("correctanswer"));
+			question = new Question("short", result.getString("question"), "null", "null", "null", "null", result.getString("answer"));
 			int id = result.getInt("id");
 			sql = "UPDATE ShortAnswer SET used = ? WHERE id = ?";
 			PreparedStatement sqlstatment = con.prepareStatement(sql);
@@ -507,5 +512,39 @@ public class Database {
 	public static void PrintQuestionVariables(Question question)
 	{
 		System.out.println(question.GetType() + "-" + question.GetQuestion() + "-" + question.GetFirst() + "-" + question.GetSecond() + "-" + question.GetThird() + "-" + question.GetFourth() + "-" + question.GetCorrect() + "\n");
+	}
+	
+	public static void ResetUsedVariable(Connection con) 
+	{
+		String sql, sqlcomm;
+		sql = "SELECT id, used FROM MultipleChoice";
+		sqlcomm = "UPDATE MultipleChoice SET used = ? WHERE id = ?";
+		Reset(con, sql, sqlcomm);
+		sql = "SELECT id, used FROM TrueFalse";
+		sqlcomm = "UPDATE TrueFalse SET used = ? WHERE id = ?";
+		Reset(con, sql, sqlcomm);
+		sql = "SELECT id, used FROM ShortAnswer";
+		sqlcomm = "UPDATE ShortAnswer SET used = ? WHERE id = ?";
+		Reset(con, sql, sqlcomm);
+	}
+	
+	private static void Reset(Connection con, String sql, String sqlcomm)
+	{
+		try 
+		{
+			Statement statment = con.createStatement();
+			PreparedStatement sqlstatment;
+			ResultSet result = statment.executeQuery(sql);
+				while(result.next())
+				{
+					sqlstatment = con.prepareStatement(sqlcomm);
+					sqlstatment.setInt(1, 0);
+					sqlstatment.setInt(2, result.getInt("id"));
+					sqlstatment.executeUpdate();
+				}
+		}catch(SQLException e)
+		{
+			System.out.println(e.toString());
+		}
 	}
 }
