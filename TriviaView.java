@@ -47,7 +47,7 @@ public class TriviaView extends JFrame{
 			room10, room11, room12, room13, room14, room15, room16;
 	private ArrayList<JLabel> rooms = new ArrayList<JLabel>();
 	
-	MyButtonGroup myBtnGrp = new MyButtonGroup();
+	AllDoorButtons myBtnGrp = new AllDoorButtons();
 
 	TriviaView(){
 
