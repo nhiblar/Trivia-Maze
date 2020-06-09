@@ -6,12 +6,6 @@ import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.event.EventListenerList;
-
-import testButtons.MyButtonGroup.BtnGrpListener;
 
 @SuppressWarnings("serial")
 public class TriviaController extends ButtonGroup{

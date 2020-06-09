@@ -1,4 +1,4 @@
-import java.awt.Color;
+import Database.*;
 
 public class MVCTrivia {
 
@@ -9,8 +9,13 @@ public class MVCTrivia {
 		TriviaController theController = new TriviaController(theView, theModel);
 		theView.setVisible(true);
 		theView.setCurrentRoom(theView.getRoom("Enter"));
-		theView.setCurrentRoom(theView.getRoom("room 2"));
-		theView.leaveRoom(theView.getRoom("Enter"));
+		
+		Database db = new Database();
+				
+		
+		
+		
+		//theView.updateQuestionPanel("multiple");
 		
 	}
 	

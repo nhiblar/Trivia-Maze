@@ -133,15 +133,18 @@ public class TriviaView extends JFrame{
 		aboutPanel.setLayout(new FlowLayout());
 	    JPanel panel = new JPanel();
 	    JTextArea jtext = new JTextArea("Create by: \nNate Hiblar \nQuin Tiller \nWryan Parr" +
-	    								"\n\nCurrent Version: 0.5" +
-	    								"\n\nCreated on: June 1st 2020" +
+	    								"\n\nCurrent Version: 0.7" +
+	    								"\n\nCreated on: June 10th, 2020" +
 	    								"\n\n\nThe Green Room is your current location." +
-	    								"\nYour goal is to click ");
+	    								"\nClick on a numbered \"door\" to move to another room." +
+	    								"\nOnce the exit room is green, you win." +
+	    								"\nAnswering a question wrong will close that door." +
+	    								"\nIf there are no possible paths to the exit, you lose.");
 	    jtext.setEditable(false);
 	    jtext.setBackground(null);
 	    panel.add(jtext);
 	    aboutPanel.add(panel, new GridBagConstraints());
-	    aboutPanel.setSize(200, 300);
+	    aboutPanel.setSize(350, 350);
 	    aboutPanel.setLocationRelativeTo(null);
 	    aboutPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    aboutPanel.setVisible(true);
@@ -237,7 +240,6 @@ public class TriviaView extends JFrame{
 		
 		return tempPanel;
 	}
-	
 	
 	public JPanel CreateMazePanel() {
 		
