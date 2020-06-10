@@ -74,10 +74,10 @@ public class TriviaController {
 			}
 		}
 	}
-
+	int counter = 0;
 	class DoorListener implements ActionListener{
 
-		int counter = 0;
+		
 		public void actionPerformed(ActionEvent e) {
 
 			source = e;
