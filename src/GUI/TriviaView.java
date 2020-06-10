@@ -126,9 +126,10 @@ public class TriviaView extends JFrame{
 			tempPanel = new JPanel();
 		}
 
-		comboPanel.add(tempPanel, BorderLayout.SOUTH);
+		comboPanel.add(CreateMultChoicePanel(), BorderLayout.SOUTH);
+		comboPanel.setVisible(true);
 		masterPanel.add(comboPanel, BorderLayout.EAST);
-		
+		masterPanel.setVisible(true);
 	}
 	
 	public void aboutPanel() {
@@ -138,8 +139,10 @@ public class TriviaView extends JFrame{
 	    JTextArea jtext = new JTextArea("Create by: \nNate Hiblar \nQuin Tiller \nWryan Parr" +
 	    								"\n\nCurrent Version: 0.7" +
 	    								"\n\nCreated on: June 10th, 2020" +
-	    								"\n\n\nThe Green Room is your current location." +
-	    								"\nClick on a numbered \"door\" to move to another room." +
+	    								"\n\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+	    								"\n\nHow to Play:" +
+	    								"\nThe Green Room is your current location." +
+	    								"\nDouble lick on a numbered \"door\" to move to another room." +
 	    								"\nOnce the exit room is green, you win." +
 	    								"\nAnswering a question wrong will close that door." +
 	    								"\nIf there are no possible paths to the exit, you lose.");
