@@ -1,3 +1,4 @@
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,11 +22,15 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+
+import TrivaMaze.MazeBuilder;
+import TrivaMaze.CellState.CheckRoom;
 
 @SuppressWarnings("serial")
 public class TriviaView extends JFrame{
@@ -47,7 +52,7 @@ public class TriviaView extends JFrame{
 			room10, room11, room12, room13, room14, room15, room16;
 	private ArrayList<JLabel> rooms = new ArrayList<JLabel>();
 	
-	AllDoorButtons myBtnGrp = new AllDoorButtons();
+	MyButtonGroup myBtnGrp = new MyButtonGroup();
 
 	TriviaView(){
 
@@ -133,18 +138,15 @@ public class TriviaView extends JFrame{
 		aboutPanel.setLayout(new FlowLayout());
 	    JPanel panel = new JPanel();
 	    JTextArea jtext = new JTextArea("Create by: \nNate Hiblar \nQuin Tiller \nWryan Parr" +
-	    								"\n\nCurrent Version: 0.7" +
-	    								"\n\nCreated on: June 10th, 2020" +
+	    								"\n\nCurrent Version: 0.5" +
+	    								"\n\nCreated on: June 1st 2020" +
 	    								"\n\n\nThe Green Room is your current location." +
-	    								"\nClick on a numbered \"door\" to move to another room." +
-	    								"\nOnce the exit room is green, you win." +
-	    								"\nAnswering a question wrong will close that door." +
-	    								"\nIf there are no possible paths to the exit, you lose.");
+	    								"\nYour goal is to click ");
 	    jtext.setEditable(false);
 	    jtext.setBackground(null);
 	    panel.add(jtext);
 	    aboutPanel.add(panel, new GridBagConstraints());
-	    aboutPanel.setSize(350, 350);
+	    aboutPanel.setSize(200, 300);
 	    aboutPanel.setLocationRelativeTo(null);
 	    aboutPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    aboutPanel.setVisible(true);
@@ -240,6 +242,7 @@ public class TriviaView extends JFrame{
 		
 		return tempPanel;
 	}
+	
 	
 	public JPanel CreateMazePanel() {
 		
@@ -456,6 +459,10 @@ public class TriviaView extends JFrame{
 	
 	public void setCurrentRoom(JLabel curRoom) {
 		curRoom.setBackground(Color.GREEN);
+	}
+	public int goBack(int i) {
+		
+		return 0;
 	}
 	
 	public void leaveRoom(JLabel oldRoom) {
