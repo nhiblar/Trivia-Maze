@@ -1,14 +1,21 @@
+package gui;
 
-
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import java.util.Random;
 
 import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
-@SuppressWarnings("serial")
-public class TriviaController extends ButtonGroup{
+import TrivaMaze.CellState;
+import TrivaMaze.CurrentRoom;
+import TrivaMaze.QuestionGenerator;
+import TrivaMaze.CellState.CheckRoom;
+
+public class TriviaController {
 
 	public TriviaView theView;
 	public TriviaModel theModel;
@@ -23,7 +30,6 @@ public class TriviaController extends ButtonGroup{
 		this.theView.addDoorListener(new DoorListener());
 	}
 
-	
 	class SubmitListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e) {
@@ -58,71 +64,247 @@ public class TriviaController extends ButtonGroup{
 			}if(e.getSource() == theView.getAbout()){
 				theView.aboutPanel();
 			}
-			if(e.getSource() == theView.getAddQuestion()){
-				System.out.println("Add question to data base.");
-			}
 		}
 	}
 	
 	class DoorListener implements ActionListener{
-
+		int counter = 0;
 		public void actionPerformed(ActionEvent e) {
 			
-			if(e.getSource() == theView.getBut1()){
-				System.out.println("Door 1 clicked");
-			}if(e.getSource() == theView.getBut2()){
-				System.out.println("Door 2 clicked");
-			}if(e.getSource() == theView.getBut3()){
-				System.out.println("Door 3 clicked");
-			}if(e.getSource() == theView.getBut4()){
-				System.out.println("Door 4 clicked");
-			}if(e.getSource() == theView.getBut5()){
-				System.out.println("Door 5 clicked");
-			}if(e.getSource() == theView.getBut6()){
-				System.out.println("Door 6 clicked");
-			}if(e.getSource() == theView.getBut7()){
-				System.out.println("Door 7 clicked");
-			}if(e.getSource() == theView.getBut8()){
-				System.out.println("Door 8 clicked");
-			}if(e.getSource() == theView.getBut9()){
-				System.out.println("Door 9 clicked");
-			}if(e.getSource() == theView.getBut10()){
-				System.out.println("Door 10 clicked");
-			}if(e.getSource() == theView.getBut11()){
-				System.out.println("Door 11 clicked");
-			}if(e.getSource() == theView.getBut12()){
-				System.out.println("Door 12 clicked");
-			}if(e.getSource() == theView.getBut13()){
-				System.out.println("Door 13 clicked");
-			}if(e.getSource() == theView.getBut14()){
-				System.out.println("Door 14 clicked");
-			}if(e.getSource() == theView.getBut15()){
-				System.out.println("Door 15 clicked");
-			}if(e.getSource() == theView.getBut16()){
-				System.out.println("Door 16 clicked");
-			}if(e.getSource() == theView.getBut17()){
-				System.out.println("Door 17 clicked");
-			}if(e.getSource() == theView.getBut18()){
-				System.out.println("Door 18 clicked");
-			}if(e.getSource() == theView.getBut19()){
-				System.out.println("Door 19 clicked");
-			}if(e.getSource() == theView.getBut20()){
-				System.out.println("Door 20 clicked");
-			}if(e.getSource() == theView.getBut21()){
-				System.out.println("Door 21 clicked");
-			}if(e.getSource() == theView.getBut22()){
-				System.out.println("Door 22 clicked");
-			}if(e.getSource() == theView.getBut23()){
-				System.out.println("Door 23 clicked");
-			}if(e.getSource() == theView.getBut24()){
-				System.out.println("Door 24 clicked");
-				
+			if(e.getSource() == theView.getBut1() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 2"));
+				theView.leaveRoom(theView.getRoom("Enter"));
+				counter++; 
+			}else if(e.getSource() == theView.getBut1() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("Enter"));
+				theView.leaveRoom(theView.getRoom("room 2"));
+				counter--;
+			}
+			
+			
+			if(e.getSource() == theView.getBut2() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 3"));
+				theView.leaveRoom(theView.getRoom("room 2"));
+				counter++;
+			}else if(e.getSource() == theView.getBut2() && counter == 1){
+				theView.setCurrentRoom(theView.getRoom("room 2"));
+				theView.leaveRoom(theView.getRoom("room 3"));
+				counter--;	
+			}
+			
+			if(e.getSource() == theView.getBut3() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 4"));
+				theView.leaveRoom(theView.getRoom("room 3"));
+				counter++;
+			}else if(e.getSource() == theView.getBut3() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 3"));
+				theView.leaveRoom(theView.getRoom("room 4"));
+				counter--;
+			}
+			
+			
+			if(e.getSource() == theView.getBut4() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 5"));
+				theView.leaveRoom(theView.getRoom("Enter"));
+				counter++;
+			}else if(e.getSource() == theView.getBut4() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("Enter"));
+				theView.leaveRoom(theView.getRoom("room 5"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut5() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 6"));
+				theView.leaveRoom(theView.getRoom("room 2"));
+				counter++;
+			}else if(e.getSource() == theView.getBut5() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 2"));
+				theView.leaveRoom(theView.getRoom("room 6"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut6() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 7"));
+				theView.leaveRoom(theView.getRoom("room 3"));
+				counter++;
+			}else if(e.getSource() == theView.getBut6() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 3"));
+				theView.leaveRoom(theView.getRoom("room 7"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut7() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 8"));
+				theView.leaveRoom(theView.getRoom("room 4"));
+				counter++;
+			}else if(e.getSource() == theView.getBut7() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 4"));
+				theView.leaveRoom(theView.getRoom("room 8"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut8() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 6"));
+				theView.leaveRoom(theView.getRoom("room 5"));
+				counter++;
+			}else if(e.getSource() == theView.getBut8() && counter == 1){
+				theView.setCurrentRoom(theView.getRoom("room 5"));
+				theView.leaveRoom(theView.getRoom("room 6"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut9() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 7"));
+				theView.leaveRoom(theView.getRoom("room 6"));
+				counter++;
+			}else if(e.getSource() == theView.getBut9() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 6"));
+				theView.leaveRoom(theView.getRoom("room 7"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut10() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 8"));
+				theView.leaveRoom(theView.getRoom("room 7"));
+				counter++;
+			}else if(e.getSource() == theView.getBut10() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 7"));
+				theView.leaveRoom(theView.getRoom("room 8"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut11() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 9"));
+				theView.leaveRoom(theView.getRoom("room 5"));
+				counter++;
+			}else if(e.getSource() == theView.getBut11() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 5"));
+				theView.leaveRoom(theView.getRoom("room 9"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut12() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 10"));
+				theView.leaveRoom(theView.getRoom("room 6"));
+				counter++;
+			}else if(e.getSource() == theView.getBut12() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 6"));
+				theView.leaveRoom(theView.getRoom("room 10"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut13() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 11"));
+				theView.leaveRoom(theView.getRoom("room 7"));
+				counter++;
+			}else if(e.getSource() == theView.getBut13() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 7"));
+				theView.leaveRoom(theView.getRoom("room 11"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut14() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 12"));
+				theView.leaveRoom(theView.getRoom("room 8"));
+				counter++;
+			}else if(e.getSource() == theView.getBut14() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 8"));
+				theView.leaveRoom(theView.getRoom("room 12"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut15() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 10"));
+				theView.leaveRoom(theView.getRoom("room 9"));
+				counter++;
+			}else if(e.getSource() == theView.getBut15() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 9"));
+				theView.leaveRoom(theView.getRoom("room 10"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut16() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 11"));
+				theView.leaveRoom(theView.getRoom("room 10"));
+				counter++;
+			}else if(e.getSource() == theView.getBut16() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 10"));
+				theView.leaveRoom(theView.getRoom("room 11"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut17() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 12"));
+				theView.leaveRoom(theView.getRoom("room 11"));
+				counter++;
+			}else if(e.getSource() == theView.getBut17() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 11"));
+				theView.leaveRoom(theView.getRoom("room 12"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut18() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 13"));
+				theView.leaveRoom(theView.getRoom("room 9"));
+				counter++;
+			}else if(e.getSource() == theView.getBut18() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 9"));
+				theView.leaveRoom(theView.getRoom("room 13"));
+				counter--;
+			}
+			
+			if(e.getSource() == theView.getBut19() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 14"));
+				theView.leaveRoom(theView.getRoom("room 10"));
+				counter++;
+			}else if(e.getSource() == theView.getBut19() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 10"));
+				theView.leaveRoom(theView.getRoom("room 14"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut20() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 15"));
+				theView.leaveRoom(theView.getRoom("room 11"));
+				counter++;
+			}else if(e.getSource() == theView.getBut20() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 11"));
+				theView.leaveRoom(theView.getRoom("room 15"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut21() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("Exit"));
+				theView.leaveRoom(theView.getRoom("room 12"));
+				counter++;
+			}else if(e.getSource() == theView.getBut21() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 12"));
+				theView.leaveRoom(theView.getRoom("Exit"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut22() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 14"));
+				theView.leaveRoom(theView.getRoom("room 13"));
+				counter++;
+			}else if(e.getSource() == theView.getBut22() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 13"));
+				theView.leaveRoom(theView.getRoom("room 14"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut23() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("room 15"));
+				theView.leaveRoom(theView.getRoom("room 14"));
+				counter++;
+			}else if(e.getSource() == theView.getBut23() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 14"));
+				theView.leaveRoom(theView.getRoom("room 15"));
+				counter--;
+			}
+			if(e.getSource() == theView.getBut24() && counter == 0){
+				theView.setCurrentRoom(theView.getRoom("Exit"));
+				theView.leaveRoom(theView.getRoom("room 15"));
+				counter++;
+			}else if(e.getSource() == theView.getBut24() && counter == 1) {
+				theView.setCurrentRoom(theView.getRoom("room 15"));
+				theView.leaveRoom(theView.getRoom("Exit"));
+				counter--;
 			}//end for check multButton source
 		}//end actionPerformed method
 	}//end class SubmitListener
-
-
-
 }
-
-
