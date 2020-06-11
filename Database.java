@@ -1,5 +1,7 @@
+package Database;
 import java.sql.*;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Database {
 
@@ -36,17 +38,18 @@ public class Database {
 		return con;
 	}
 	
+	public static Connection EstablishDatabase() 
+	{
+		return EstablishDatabase("trivia.db");
+	}
+	
+	
 	public static void CloseDatabase() {
 		try {
 			database.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static Connection EstablishDatabase() 
-	{
-		return EstablishDatabase("trivia.db");
 	}
 	
 	private static void CreateShortAnswerTable() 
@@ -117,7 +120,7 @@ public class Database {
 		CreateTrueFalseTable();
 	}
 	
-	public static void AddMultipleChoiceQuestion() 
+	public static boolean AddMultipleChoiceQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String question, first, second, third, fourth, correct;
@@ -145,13 +148,14 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+			kb.close();
+			return true;
 	}
 	
-	public static void AddTrueFalseQuestion() 
+	public static boolean AddTrueFalseQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String question, answer;
@@ -170,13 +174,16 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
+		
 	}
 	
-	public static void AddShortAnswerQuestion() 
+	public static boolean AddShortAnswerQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String question, answer;
@@ -195,13 +202,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
 	}
 	
-	public static void UpdateMultipleChoiceQuestion() 
+	public static boolean UpdateMultipleChoiceQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id, question, first, second, third, fourth, correct;
@@ -232,13 +241,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
 	}
 	
-	public static void UpdateTrueFalseQuestion() 
+	public static boolean UpdateTrueFalseQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id, question, answer;
@@ -259,13 +270,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
 	}
 	
-	public static void UpdateShortAnswerQuestion() 
+	public static boolean UpdateShortAnswerQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id, question, answer;
@@ -286,13 +299,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
 	}
 	
-	public static void DeleteMultipleChoiceQuestion() 
+	public static boolean DeleteMultipleChoiceQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id;
@@ -307,13 +322,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+	
+		kb.close();
+		return true;
 	}
 	
-	public static void DeleteTrueFalseQuestion() 
+	public static boolean DeleteTrueFalseQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id;
@@ -328,13 +345,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
 	}
 	
-	public static void DeleteShortAnswerQuestion() 
+	public static boolean DeleteShortAnswerQuestion() 
 	{
 		Scanner kb = new Scanner(System.in);
 		String id;
@@ -349,13 +368,15 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
-		}finally
-		{
 			kb.close();
+			return false;
 		}
+		
+		kb.close();
+		return true;
 	}
 	
-	public static void PrintAllMultipleChoiceQuestions()
+	public static boolean PrintAllMultipleChoiceQuestions()
 	{
 		String sql = "SELECT id, question, firstanswer, secondanswer, thirdanswer, fourthanswer, correctanswer, used FROM MultipleChoice";
 		try 
@@ -372,10 +393,12 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
+			return false;
 		}
+		return true;
 	}
 	
-	public static void PrintAllTrueFalseQuestions()
+	public static boolean PrintAllTrueFalseQuestions()
 	{
 		String sql = "SELECT id, question, answer, used FROM TrueFalse";
 		try 
@@ -390,10 +413,12 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
+			return false;
 		}
+		return true;
 	}
 	
-	public static void PrintAllShortAnswerQuestions()
+	public static boolean PrintAllShortAnswerQuestions()
 	{
 		String sql = "SELECT id, question, answer, used FROM ShortAnswer";
 		try 
@@ -408,13 +433,20 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
+			return false;
 		}
+		return true;
 	}
 	
-	public static void PrintAllQuestions() {
-		PrintAllMultipleChoiceQuestions();
-		PrintAllTrueFalseQuestions();
-		PrintAllShortAnswerQuestions();
+	public static boolean PrintAllQuestions() {
+		boolean result = true;
+		result = PrintAllMultipleChoiceQuestions();
+		if(result == false) return result;
+		result = PrintAllTrueFalseQuestions();
+		if(result == false) return result;
+		result = PrintAllShortAnswerQuestions();
+		if(result == false) return result;
+		return result;
 	}
 	
 	public static Question GetMultipleChoiceQuestion()
@@ -445,7 +477,7 @@ public class Database {
 	
 	public static Question GetTrueFalseQuestion()
 	{
-		String sql = "SELECT id, question, answer, used FROM TrueFalse order by RANDOM() LIMIT 1";
+		String sql = "SELECT id, question, answer, used FROM TrueFalse WHERE used = 0 order by RANDOM() LIMIT 1";
 		Question question = null;
 		try 
 		{
@@ -471,7 +503,7 @@ public class Database {
 	
 	public static Question GetShortAnswerQuestion() 
 	{
-		String sql = "SELECT id, question, answer, used FROM ShortAnswer order by RANDOM() LIMIT 1";
+		String sql = "SELECT id, question, answer, used FROM ShortAnswer WHERE used = 0 order by RANDOM() LIMIT 1";
 		Question question = null;
 		try 
 		{
@@ -495,6 +527,44 @@ public class Database {
 		return question;
 	}
 	
+	public static Question GetQuestion() 
+	{
+		int mc = 0, tf = 0, sa = 0;
+		try
+		{
+			PreparedStatement sqlstatment = database.prepareStatement("SELECT count(id) from MultipleChoice WHERE used = 0");
+			ResultSet result = sqlstatment.executeQuery();
+			mc = result.getInt(1);
+			sqlstatment = database.prepareStatement("SELECT count(id) from TrueFalse WHERE used = 0");
+			result = sqlstatment.executeQuery();
+			tf = result.getInt(1);
+			sqlstatment = database.prepareStatement("SELECT count(id) from ShortAnswer WHERE used = 0");
+			result = sqlstatment.executeQuery();
+			sa = result.getInt(1);
+		}catch(SQLException e) 
+		{
+			System.out.println(e.toString());
+		}
+		int random = 0;
+		Question question = null;
+		if(mc > 0 && tf > 0 && sa > 0) random = GetRand(0,2);
+		if(mc > 0 && tf > 0 && sa == 0) random = GetRand(0,1);
+		if(mc > 0 && sa > 0 && tf == 0) random = GetRand(2,3);
+		if(tf > 0 && sa > 0 && mc == 0) random = GetRand(1,2);
+		if(mc > 0 && tf == 0 && sa == 0) random = 0;
+		if(tf > 0 && mc == 0 && sa == 0) random = 1;
+		if(sa > 0 && mc == 0 && tf == 0) random = 2;
+		if(random == 0 || random == 3) question = Database.GetMultipleChoiceQuestion();
+		if(random == 1) question = Database.GetTrueFalseQuestion();
+		if(random == 2) question = Database.GetShortAnswerQuestion();
+		return question;
+	}
+	
+	private static int GetRand(int start, int stop)
+	{
+		return ThreadLocalRandom.current().nextInt(start, stop + 1);
+	}
+	
 	public static void PrintQuestionVariables(Question question)
 	{
 		if(question != null)
@@ -503,21 +573,26 @@ public class Database {
 		}
 	}
 	
-	public static void ResetUsedVariable() 
+	public static boolean ResetUsedVariable() 
 	{
+		boolean result = true;
 		String sql, sqlcomm;
 		sql = "SELECT id, used FROM MultipleChoice";
 		sqlcomm = "UPDATE MultipleChoice SET used = ? WHERE id = ?";
-		Reset(sql, sqlcomm);
+		result = Reset(sql, sqlcomm);
+		if(result == false) return result;
 		sql = "SELECT id, used FROM TrueFalse";
 		sqlcomm = "UPDATE TrueFalse SET used = ? WHERE id = ?";
-		Reset(sql, sqlcomm);
+		result = Reset(sql, sqlcomm);
+		if(result == false) return result;
 		sql = "SELECT id, used FROM ShortAnswer";
 		sqlcomm = "UPDATE ShortAnswer SET used = ? WHERE id = ?";
-		Reset(sql, sqlcomm);
+		result = Reset(sql, sqlcomm);
+		if(result == false) return result;
+		return result;
 	}
 	
-	private static void Reset(String sql, String sqlcomm)
+	private static boolean Reset(String sql, String sqlcomm)
 	{
 		try 
 		{
@@ -534,6 +609,8 @@ public class Database {
 		}catch(SQLException e)
 		{
 			System.out.println(e.toString());
+			return false;
 		}
+		return true;
 	}
 }
