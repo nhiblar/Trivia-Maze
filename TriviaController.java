@@ -125,7 +125,7 @@ public class TriviaController {
 							userGuess = button.getText();
 						}
 						
-						if(button.equals(theView.getCheatButton())) {
+						if(button.equals(theView.getCheatButton()) && button.isSelected()) {
 							userGuess = correctAnswer;
 							System.out.println("Made it to cheat button.");
 						}
@@ -144,7 +144,6 @@ public class TriviaController {
 								theView.leaveRoom(theView.getRoom("room 2"));
 								counter--;
 							}
-
 
 							if(source.getSource() == theView.getBut2() && counter == 0){
 								theView.setCurrentRoom(theView.getRoom("room 3"));
