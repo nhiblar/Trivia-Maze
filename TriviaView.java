@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.TextArea;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -25,6 +24,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -37,9 +37,10 @@ public class TriviaView extends JFrame{
 	private JMenuBar mb;
 	private JMenu file, help;
 	private JMenuItem save, load, quit, about, addQuestion;
-	private JPanel masterPanel, mazePanel, questionPanel, comboPanel = new JPanel();
+	private JPanel masterPanel, mazePanel, questionPanel, answerPanel, comboPanel = new JPanel();
 	private JTextArea displayQuestion;
-	private JRadioButton answer1, answer2, answer3, answer4, trueBtn, falseBtn;
+	private JTextField shortAnswer = new JTextField(26);
+	private JRadioButton answer1, answer2, answer3, answer4, trueBtn, falseBtn, cheatButton;
 	private ButtonGroup multChoice, tfChoice;
 	private JButton submitButton;
 	private JButton but1, but2, but3, but4, but5,
@@ -64,12 +65,9 @@ public class TriviaView extends JFrame{
 		mazePanel = CreateMazePanel();
 		
 		questionPanel = CreateQuestionDisplayPanel("Click a door for the first question.");
-//		CreateMultChoicePanel();
-//		tfPanel = CreateTrueFalsePanel();
-//		comboPanel = new JPanel();
 		comboPanel.setPreferredSize(new Dimension(300, 800));
 		comboPanel.add(questionPanel, BorderLayout.NORTH);
-		comboPanel.add(CreateMultChoicePanel(), BorderLayout.SOUTH);
+		comboPanel.add(defaultQuestionPanel(), BorderLayout.SOUTH);
 		comboPanel.setVisible(true);
 		
 		masterPanel.add(mazePanel, BorderLayout.WEST);
@@ -101,80 +99,20 @@ public class TriviaView extends JFrame{
 		this.setResizable(false);
 		this.setVisible(true);
 		
-		
 	}
-	
+		
 	private void setGameStartText() {
 		
-		answer1 = new JRadioButton("");
-		answer2 = new JRadioButton("");
-		answer3 = new JRadioButton("");
-		answer4 = new JRadioButton("");
+		answer1 = new JRadioButton("Answer 1");
+		answer2 = new JRadioButton("Answer 2");
+		answer3 = new JRadioButton("Answer 3");
+		answer4 = new JRadioButton("Answer 4");
 		trueBtn = new JRadioButton("True");
 		falseBtn = new JRadioButton("False");
-	}
-
-	public void updateQuestionPanel(Question question) {
-		
-		String str = question.GetType();
-		JPanel tempPanel;
-		displayQuestion.setText(question.GetQuestion());
-		if(str.equals("trueFalse")) {
-			tempPanel = CreateTrueFalsePanel();
-			System.out.println("True false reached in updateQuestionPanel.");
-		}
-		else if(str.equals("multiple")) {
-			
-			answer1.setText(question.GetFirst());
-			answer2.setText(question.GetSecond());
-			answer3.setText(question.GetThird());
-			answer4.setText(question.GetFourth());
-		}
-		else if(str.equals("short")) {
-			tempPanel = CreateShortAnswerPanel();
-		}else {
-			tempPanel = new JPanel();
-		}
-		
-		
-//		questionPanel = CreateQuestionDisplayPanel(question.GetQuestion());
-//		questionPanel.setVisible(true);
-//		comboPanel.setPreferredSize(new Dimension(300, 800));
-//		comboPanel.add(questionPanel, BorderLayout.NORTH);
-//		comboPanel.add(tempPanel, BorderLayout.SOUTH);
-//		comboPanel.add(CreateQuestionDisplayPanel(question.GetQuestion()), BorderLayout.NORTH);
-//		comboPanel.setVisible(true);
-//		masterPanel.add(comboPanel, BorderLayout.EAST);
-//		this.getContentPane().add(masterPanel);
-//		masterPanel.setVisible(true);
+		cheatButton = new JRadioButton("Cheat Button");
+		shortAnswer.setVisible(true);
 	}
 	
-	public void aboutPanel() {
-		
-		JFrame aboutPanel = new JFrame();
-		aboutPanel.setLayout(new FlowLayout());
-	    JPanel panel = new JPanel();
-	    JTextArea jtext = new JTextArea("Created by: \nNate Hiblar \nQuin Tiller \nWryan Parr" +
-	    								"\n\nCurrent Version: 0.7" +
-	    								"\n\nCreated on: June 10th, 2020" +
-	    								"\n\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
-	    								"\n\nHow to Play:" +
-	    								"\nThe Green Room is your current location." +
-	    								"\nDouble click on a numbered \"door\" to move to another room." +
-	    								"\nOnce the exit room is green, you win." +
-	    								"\nAnswering a question wrong will close that door." +
-	    								"\nIf there are no possible paths to the exit, you lose.");
-	    jtext.setEditable(false);
-	    jtext.setBackground(null);
-	    panel.add(jtext);
-	    aboutPanel.add(panel, new GridBagConstraints());
-	    aboutPanel.setSize(350, 350);
-	    aboutPanel.setLocationRelativeTo(null);
-	    aboutPanel.setResizable(false);
-	    aboutPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    aboutPanel.setVisible(true);
-	}
-
 	private JPanel CreateQuestionDisplayPanel(String questionStr) {
 		
 		JPanel questionPanel = new JPanel();
@@ -200,63 +138,6 @@ public class TriviaView extends JFrame{
 		questionPanel.setVisible(true);
 		
 		return questionPanel;
-	}
-	
-	private JPanel CreateMultChoicePanel() {
-		
-		JPanel tempPanel = new JPanel();
-		tempPanel.setPreferredSize(new Dimension(300, 400));
-		tempPanel.setLayout(new GridLayout(2,1,10,1));
-		
-		Box multBox = Box.createVerticalBox();
-		multChoice = new ButtonGroup();
-		multChoice.add(answer1);
-		multChoice.add(answer2);
-		multChoice.add(answer3);
-		multChoice.add(answer4);
-		multBox.add(answer1);
-		multBox.add(answer2);
-		multBox.add(answer3);
-		multBox.add(answer4);
-		tempPanel.setBorder(BorderFactory.createTitledBorder("Multiple Choice Question:"));
-		tempPanel.add(multBox);
-		tempPanel.setVisible(true);
-		
-		return tempPanel;
-	}
-	
-	private JPanel CreateTrueFalsePanel() {
-		
-		//System.out.println("CreateTrueFalsePanel() method called.");
-		JPanel tempPanel = new JPanel();
-		tempPanel.setPreferredSize(new Dimension(300, 400));
-		tempPanel.setLayout(new GridLayout(2,1,10,1));
-		
-		Box trueFalseBox = Box.createVerticalBox();
-		tfChoice = new ButtonGroup();
-		tfChoice.add(trueBtn);
-		tfChoice.add(falseBtn);
-		trueFalseBox.add(trueBtn);
-		trueFalseBox.add(falseBtn);
-		
-		tempPanel.setBorder(BorderFactory.createTitledBorder("True or False Question:"));
-		tempPanel.add(trueFalseBox);
-		tempPanel.setVisible(true);
-		
-		return tempPanel;
-		
-	}
-	
-	private JPanel CreateShortAnswerPanel(){
-		
-		JPanel tempPanel = new JPanel();
-		tempPanel.setPreferredSize(new Dimension(300, 400));
-		tempPanel.setLayout(new GridLayout(2,1,10,1));
-		TextArea jText = new TextArea();
-		jText.setEditable(true);
-		jText.setBackground(null);
-		
-		return tempPanel;
 	}
 	
 	public JPanel CreateMazePanel() {
@@ -465,28 +346,112 @@ public class TriviaView extends JFrame{
 		return null;
 	}
 
-	public void setQuestionPanel(Question q) {
-		this.displayQuestion.setText(q.GetQuestion());
-		this.answer1.setText(q.GetFirst());
-		this.answer2.setText(q.GetSecond());
-		this.answer3.setText(q.GetThird());
-		this.answer4.setText(q.GetFourth());
+	
+	private JPanel defaultQuestionPanel(){
+		
+		answerPanel = new JPanel();
+		answerPanel.setPreferredSize(new Dimension(300, 400));
+		answerPanel.setLayout(new GridLayout(2,1,10,1));
+		
+		Box multBox = Box.createVerticalBox();
+		multChoice = new ButtonGroup();
+		multChoice.add(answer1);
+		multChoice.add(answer2);
+		multChoice.add(answer3);
+		multChoice.add(answer4);
+		multChoice.add(trueBtn);
+		multChoice.add(falseBtn);
+		multChoice.add(cheatButton);
+		multBox.add(answer1);
+		multBox.add(answer2);
+		multBox.add(answer3);
+		multBox.add(answer4);
+		multBox.add(trueBtn);
+		multBox.add(falseBtn);
+		multBox.add(cheatButton);
+		answerPanel.add(multBox);
+
+		JPanel textPanel = new JPanel();
+		shortAnswer.setEditable(true);
+		shortAnswer.setBackground(Color.WHITE);
+		textPanel.setSize(new Dimension(300, 400));
+		textPanel.add(shortAnswer);
+		textPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		textPanel.setName("Short Answer Question");
+		String title = "Short Answer:";
+		Border border = BorderFactory.createTitledBorder(title);
+		textPanel.setBorder(border);
+		answerPanel.add(textPanel);
+		answerPanel.setVisible(true);
+		
+		return answerPanel;
 	}
 	
+	public void setQuestionPanel(Question q) {
+		
+		displayQuestion.setText(q.GetQuestion());
+		answer1.setText("");
+		answer2.setText("");
+		answer3.setText("");
+		answer4.setText("");
+		trueBtn.setText("");
+		falseBtn.setText("");
+		cheatButton.setText("Cheat Button");
+		
+		if(q.GetType().equals("multiple")) {
+			answer1.setText(q.GetFirst());
+			answer2.setText(q.GetSecond());
+			answer3.setText(q.GetThird());
+			answer4.setText(q.GetFourth());
+		}
+		if(q.GetType().equals("trueFalse")) {
+			trueBtn.setText("True");
+			falseBtn.setText("False");
+		}
+		
+	}
+	
+	public void aboutPanel() {
+		
+		JFrame aboutPanel = new JFrame();
+		aboutPanel.setLayout(new FlowLayout());
+	    JPanel panel = new JPanel();
+	    JTextArea jtext = new JTextArea("Created by: \nNate Hiblar \nQuin Tiller \nWryan Parr" +
+	    								"\n\nCurrent Version: 0.8" +
+	    								"\n\nCreated on: June 10th, 2020" +
+	    								"\n\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - " +
+	    								"\n\nHow to Play:" +
+	    								"\nThe Green Room is your current location." +
+	    								"\nDouble click on a numbered \"door\" to move to another room." +
+	    								"\nOnce the exit room is green, you win." +
+	    								"\nAnswering a question wrong will close that door." +
+	    								"\nIf there are no possible paths to the exit, you lose.");
+	    jtext.setEditable(false);
+	    jtext.setBackground(null);
+	    panel.add(jtext);
+	    aboutPanel.add(panel, new GridBagConstraints());
+	    aboutPanel.setSize(350, 350);
+	    aboutPanel.setLocationRelativeTo(null);
+	    aboutPanel.setResizable(false);
+	    aboutPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    aboutPanel.setVisible(true);
+	}
+
+	public String getShortAnswer() { return shortAnswer.getText(); }
 	public JMenuItem getSave() { return save; }
 	public JMenuItem getLoad() { return load; }
 	public JMenuItem getQuit() { return quit; }
 	public JMenuItem getAbout() { return about; }
 	public JMenuItem getAddQuestion() { return addQuestion; }
-	public JButton getBut1() { return this.but1; }
-	public JButton getBut2() { return this.but2; }
-	public JButton getBut3() { return this.but3; }
-	public JButton getBut4() { return this.but4; }
-	public JButton getBut5() { return this.but5; }
-	public JButton getBut6() { return this.but6; }
-	public JButton getBut7() { return this.but7; }
-	public JButton getBut8() { return this.but8; }
-	public JButton getBut9() { return this.but9; }
+	public JButton getBut1()  { return this.but1; }
+	public JButton getBut2()  { return this.but2; }
+	public JButton getBut3()  { return this.but3; }
+	public JButton getBut4()  { return this.but4; }
+	public JButton getBut5()  { return this.but5; }
+	public JButton getBut6()  { return this.but6; }
+	public JButton getBut7()  { return this.but7; }
+	public JButton getBut8()  { return this.but8; }
+	public JButton getBut9()  { return this.but9; }
 	public JButton getBut10() { return this.but10; }
 	public JButton getBut11() { return this.but11; }
 	public JButton getBut12() { return this.but12; }
@@ -502,6 +467,7 @@ public class TriviaView extends JFrame{
 	public JButton getBut22() { return this.but22; }
 	public JButton getBut23() { return this.but23; }
 	public JButton getBut24() { return this.but24; }
+	public JRadioButton getCheatButton() { return this.cheatButton; }
 	
 	public JButton getSubmitButton() { return this.submitButton; }
 	public ButtonGroup getMultButtons() { return this.multChoice; }
@@ -545,12 +511,5 @@ public class TriviaView extends JFrame{
 		but23.addActionListener(listenerForDoorButton);
 		but24.addActionListener(listenerForDoorButton);
 	}
-
-	
-	public void pushNewQuestion() {
-		Question curQ = TriviaDriver.getCurQuestion();
-		
-	}
-	
 	
 }
