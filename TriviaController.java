@@ -59,8 +59,7 @@ public class TriviaController {
 		maze[row][colum] = 1;
 	}
 	
-	public static boolean isPath(int arr[][]) 
-    { 
+	public static boolean isPath(int arr[][])  { 
         // set arr[0][0] = 1 
         arr[0][0] = 1; 
   
@@ -86,8 +85,7 @@ public class TriviaController {
         return (arr[7 - 1][7 - 1] == 1); 
     }
 	
-	private void youWin()
-	{
+	private void youWin() {
 		int dialog = JOptionPane.showConfirmDialog(null,
 				"Congratulations, you win!!\n"
 						+ "Would you like to play again?", "Game Over",
@@ -97,8 +95,7 @@ public class TriviaController {
 		
 	}
 
-	private void youLose()
-	{
+	private void youLose() {
 		int dialog = JOptionPane.showConfirmDialog(null, "ALMOST!\n"
 				+ "Would you like to play again?", "Game Over",
 				JOptionPane.YES_NO_OPTION);
@@ -106,9 +103,6 @@ public class TriviaController {
 			System.exit(0);
 		
 			
-	}
-	public void checkGameOver() {
-		youLose();
 	}
 	
 	int counter = 0;
