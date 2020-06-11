@@ -7,7 +7,7 @@ import javax.swing.AbstractButton;
 import Database.Database;
 import Database.Question;
 
-public class TriviaControllerOld {
+public class TriviaController {
 
 	public TriviaView theView;
 	public TriviaModel theModel;
